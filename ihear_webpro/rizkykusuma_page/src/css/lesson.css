@@ -1,0 +1,57 @@
+.words {
+    font-size: 14px;
+    color: #6c757d;
+}
+.py-6 {
+    padding-top: 12rem; /* Sesuaikan dengan ukuran yang diinginkan */
+    padding-bottom: 4rem; /* Sesuaikan dengan ukuran yang diinginkan */
+}
+/* Container untuk gambar agar ukurannya konsisten */
+.image-container {
+    width: 50%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Ukuran dan pengaturan gambar */
+.lesson-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Progress bar styling */
+.progress {
+    height: 10px;
+    border-radius: 5px;
+    background-color: #B0D9E3;
+    /* Background bar */
+}
+
+.progress-bar {
+    background-color: #8EC5D2;
+    /* Warna progress */
+}
+
+.bar {
+    background-color: #499CB1;
+}
+
+.card {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
