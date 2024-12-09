@@ -1,7 +1,39 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Head from "next/head";
 
 export default function SignInPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Mencegah reload halaman
+
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/auth?email=${encodeURIComponent(
+          email
+        )}&password=${encodeURIComponent(password)}`
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setSuccess(`Login berhasil! Selamat datang, ${data.user.firstName}`);
+        setError("");
+        window.location.href = "/home";
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || "Terjadi kesalahan saat login.");
+        setSuccess("");
+      }
+    } catch (err) {
+      setError("Gagal terhubung ke server.");
+      setSuccess("");
+    }
+  };
+
   return (
     <>
       {/* Metadata */}
@@ -12,26 +44,37 @@ export default function SignInPage() {
       </Head>
 
       {/* Sign In Page */}
-      <div className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat" 
-        style={{ backgroundImage: "url('/assets/images/background_hijau.jpg')" }}>
-        
+      <div
+        className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/assets/images/background_hijau.jpg')" }}
+      >
         {/* Container */}
         <div className="bg-white/85 rounded-xl shadow-md p-10 w-full max-w-lg">
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Header */}
             <div className="text-center">
               <h2 className="text-2xl font-bold text-gray-800">Hello Bung!</h2>
-              <p className="text-sm text-gray-600 mt-2">Welcome to IHear - Let’s Auth Your Self !!</p>
+              <p className="text-sm text-gray-600 mt-2">
+                Welcome to IHear - Let’s Auth Your Self !!
+              </p>
               <hr className="border-gray-400 my-4" />
             </div>
 
+            {/* Error & Success Messages */}
+            {error && <p className="text-red-600 text-sm">{error}</p>}
+            {success && <p className="text-green-600 text-sm">{success}</p>}
+
             {/* Email Input */}
             <div className="space-y-2">
-              <label htmlFor="email" className="block text-gray-700 font-medium">Email</label>
+              <label htmlFor="email" className="block text-gray-700 font-medium">
+                Email
+              </label>
               <input
                 type="email"
                 id="email"
                 placeholder="Masukkan email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full px-4 py-3 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
               />
@@ -39,11 +82,15 @@ export default function SignInPage() {
 
             {/* Password Input */}
             <div className="space-y-2">
-              <label htmlFor="password" className="block text-gray-700 font-medium">Password</label>
+              <label htmlFor="password" className="block text-gray-700 font-medium">
+                Password
+              </label>
               <input
                 type="password"
                 id="password"
                 placeholder="Masukkan password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
                 className="w-full px-4 py-3 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
               />
