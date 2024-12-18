@@ -32,7 +32,7 @@ const RelationsPage = () => {
 
         <a href="../arga_page/profile.html" className="ml-auto">
           <img
-            src="https://via.placeholder.com/40"
+            src="/assets/images/imgProfile.png"
             alt="Profile"
             className="rounded-full border-2 border-white w-[45px] h-[45px]"
           />
@@ -44,7 +44,7 @@ const RelationsPage = () => {
         {/* LEFT COLUMN */}
         <div className="flex flex-col items-center bg-white border-2 border-gray-300 rounded-xl p-4 w-1/4">
           <button className="bg-[#499CB1] text-white py-2 px-6 rounded-full text-lg mb-6 flex items-center">
-            <img src="assets/icon/people.png" alt="People" className="mr-2 w-6" />
+            <img src="/assets/images/icon/people.png" className="mr-2 w-6" />
             Community
           </button>
 
@@ -55,7 +55,7 @@ const RelationsPage = () => {
               className="flex items-center w-full border border-gray-300 rounded-lg p-2 mb-4"
             >
               <img
-                src="assets/imgProfile.png"
+                src="/assets/images/imgProfile.png"
                 alt="Profile"
                 className="rounded-full w-12 h-12 mr-4"
               />
@@ -73,12 +73,12 @@ const RelationsPage = () => {
           <div className="bg-white border-2 border-gray-300 rounded-xl w-full p-4 mb-6">
             <div className="flex items-center">
               <img
-                src="assets/imgProfile.png"
+                src="/assets/images/imgProfile.png"
                 alt="Profile"
                 className="rounded-full w-12 h-12 mr-4"
-              />
-              <textarea
-                className="border-2 border-gray-300 rounded-lg w-full h-24 p-3 resize-none outline-none"
+                />
+                <textarea
+                className="border-2 border-gray-300 rounded-lg w-full h-13 p-3 resize-none outline-none"
                 placeholder="Bagikan Kegiatan Anda!!"
               />
             </div>
@@ -97,14 +97,21 @@ const RelationsPage = () => {
               keragaman, inklusivitas, dan kasih sayang. Jangan lupa untuk selalu berbuat baik,
               sekecil apa pun itu, karena dampaknya luar biasa! 💛✨
             </p>
-            <div className="mt-4 flex justify-between items-center">
+            <img src="/assets/images/bekind.png" alt="" className="items-center"/>
+            <div className="mt-4 flex items-center">
               <span className="flex items-center space-x-2 text-gray-500">
                 <i className="fas fa-heart"></i>
-                <span>10</span>
+                <img src="/assets/images/icon/Love.png" className="w-6 h-6" />
+                <span className="pr-2">10</span>
               </span>
               <span className="flex items-center space-x-2 text-gray-500">
                 <i className="fas fa-comment"></i>
-                <span>2</span>
+                <img src="/assets/images/icon/icon.png" className="w-6 h-6" />
+                <span className="pr-2">2</span>
+              </span>
+              <span className="flex items-center space-x-2 text-gray-500">
+                <i className="fas fa-comment"></i>
+                <img src="/assets/images/icon/icon(1).png" className="w-6 h-6" />
               </span>
             </div>
           </div>
@@ -114,7 +121,7 @@ const RelationsPage = () => {
         <div className="w-1/4">
           <div className="bg-white border-2 border-gray-300 rounded-xl p-4">
             <div className="flex items-center mb-6">
-              <img src="assets/icon/Search.png" alt="Search" className="w-6 h-6 mr-4" />
+              <img src="/assets/images/icon/Search.png" className="w-6 h-6 mr-4" />
               <p className="text-gray-500 text-lg font-bold">Search</p>
             </div>
 
@@ -124,7 +131,7 @@ const RelationsPage = () => {
                 <div key={index} className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
                     <img
-                      src="assets/imgProfile.png"
+                      src="/assets/images/imgProfile.png"
                       alt="Profile"
                       className="rounded-full w-10 h-10 mr-4"
                     />
