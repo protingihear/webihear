@@ -5,6 +5,9 @@ export default function HomePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 2;
 
+  const userId = localStorage.getItem("userId");
+  console.log("User ID dari localStorage:", userId);
+
   const newsItems = [
     {
       id: 1,

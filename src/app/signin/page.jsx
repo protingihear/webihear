@@ -10,29 +10,56 @@ export default function SignInPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Mencegah reload halaman
-
+  
     try {
       const response = await fetch(
-        `http://localhost:8000/api/auth?email=${encodeURIComponent(
-          email
-        )}&password=${encodeURIComponent(password)}`
+        `http://localhost:8000/api/auth?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
       );
-
-      if (response.ok) {
-        const data = await response.json();
-        setSuccess(`Login berhasil! Selamat datang, ${data.user.firstName}`);
-        setError("");
-        window.location.href = "/home";
-      } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Terjadi kesalahan saat login.");
+  
+      // Log status HTTP untuk debugging
+      console.log("HTTP Status:", response.status);
+  
+      // Jika respons tidak sukses (status bukan 200)
+      if (!response.ok) {
+        // Coba parsing JSON untuk mendapatkan pesan error dari server
+        try {
+          const errorData = await response.json();
+          console.error("Error response:", errorData);
+          setError(errorData.message || "Terjadi kesalahan saat login.");
+        } catch (jsonError) {
+          // Jika parsing JSON gagal
+          console.error("JSON parse error:", jsonError);
+          setError("Server mengembalikan respons yang tidak valid.");
+        }
         setSuccess("");
+        return;
       }
+  
+      // Parsing respons JSON jika respons sukses
+      const data = await response.json();
+      console.log("Login response data:", data);
+  
+      setSuccess(`Login berhasil! Selamat datang`);
+
+      setError("");
+      
+      // set local storage dengan id
+      localStorage.setItem("userId", data.userId);
+      // Redirect ke halaman home
+      window.location.href = "/home";
     } catch (err) {
-      setError("Gagal terhubung ke server.");
+      // Tangani error jaringan atau error tak terduga
+      console.error("Fetch error:", err);
+  
+      if (err.name === "TypeError") {
+        setError("Tidak dapat terhubung ke server. Periksa koneksi internet Anda.");
+      } else {
+        setError("Terjadi kesalahan tak terduga.");
+      }
       setSuccess("");
     }
   };
+  
 
   return (
     <>
