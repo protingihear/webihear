@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { PencilIcon } from "@heroicons/react/solid";
+
+import { HomeIcon, GlobeAltIcon, BriefcaseIcon, PencilIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/navigation";
 
 function ErrorModal({ message, onClose }) {
@@ -22,7 +23,7 @@ function ErrorModal({ message, onClose }) {
 }
 
 {/* NAVBAR */}
-export function Navbar() {
+export function Navbar({ profilePic }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -36,34 +37,46 @@ export function Navbar() {
 
   return (
     <nav className="bg-[#86c5d8] py-5 px-7 shadow-md flex items-center justify-between">
-      <a className="text-xl font-bold text-[#00354e] flex items-center" href="#">
-        <i className="fas fa-ear-listen mr-2"></i> IHear
+      {/* Logo Section */}
+      <a className="text-xl font-bold text-[#00354e] flex items-center mr-10" href="#">
+        IHear
       </a>
 
+      {/* Navigation Links */}
       <div className="hidden md:flex space-x-8">
+        {/* Home Link */}
         <a
           href="../Kiki_HomePage_1302220020 (Terbaru)/homepage.html"
-          className="text-lg text-[#00354e] flex items-center"
+          className="text-lg text-white flex items-center"
         >
-          <i className="fas fa-home mr-2"></i> Home
+          <HomeIcon className="h-6 w-6 text-[#00354e] mr-2" />
+          Home
         </a>
+
+        {/* Relations Link */}
         <a
           href="../Relations/dashboardRelations.html"
-          className="text-lg text-[#00354e] flex items-center"
+          className="text-lg text-white flex items-center"
         >
-          <i className="fas fa-globe mr-2"></i> Relations
+          <GlobeAltIcon className="h-6 w-6 text-[#00354e] mr-2" />
+          Relations
         </a>
+
+        {/* Lesson Link */}
         <a
           href="../rizkykusuma_page/lesson.html"
-          className="text-lg text-[#00354e] flex items-center"
+          className="text-lg text-white flex items-center"
         >
-          <i className="fas fa-book mr-2"></i> Lesson
+          <BriefcaseIcon className="h-6 w-6 text-[#00354e] mr-2" />
+          Lesson
         </a>
       </div>
 
+      {/* Profile Section */}
       <div className="relative ml-auto">
         <img
-          src="/assets/images/imgProfile.png"
+          id="profile-pic"
+          src={profilePic || "/assets/images/imgProfile.png"} // Fallback to default if profilePic is not available
           alt="Profile"
           className="rounded-full border-2 border-white w-[45px] h-[45px] cursor-pointer"
           onClick={toggleDropdown}
@@ -89,7 +102,6 @@ export function Navbar() {
     </nav>
   );
 }
-
 
 export default function ProfilePage() {
   const [profilePic, setProfilePic] = useState("");
@@ -247,7 +259,7 @@ let userId = localStorage.getItem("userId");
 
   return (
     <>
-      <Navbar />
+      <Navbar profilePic={profilePic} />
   
       {/* Main Content */}
       <div className="flex justify-center mt-5">
