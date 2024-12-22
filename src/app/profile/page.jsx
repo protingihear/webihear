@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { PencilIcon } from "@heroicons/react/solid";
+import { useRouter } from "next/navigation";
 
 function ErrorModal({ message, onClose }) {
   return (
@@ -19,6 +20,76 @@ function ErrorModal({ message, onClose }) {
     </div>
   );
 }
+
+{/* NAVBAR */}
+export function Navbar() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userId");
+    window.location.href = "/signin"; // Redirect to sign-in page
+  };
+
+  return (
+    <nav className="bg-[#86c5d8] py-5 px-7 shadow-md flex items-center justify-between">
+      <a className="text-xl font-bold text-[#00354e] flex items-center" href="#">
+        <i className="fas fa-ear-listen mr-2"></i> IHear
+      </a>
+
+      <div className="hidden md:flex space-x-8">
+        <a
+          href="../Kiki_HomePage_1302220020 (Terbaru)/homepage.html"
+          className="text-lg text-[#00354e] flex items-center"
+        >
+          <i className="fas fa-home mr-2"></i> Home
+        </a>
+        <a
+          href="../Relations/dashboardRelations.html"
+          className="text-lg text-[#00354e] flex items-center"
+        >
+          <i className="fas fa-globe mr-2"></i> Relations
+        </a>
+        <a
+          href="../rizkykusuma_page/lesson.html"
+          className="text-lg text-[#00354e] flex items-center"
+        >
+          <i className="fas fa-book mr-2"></i> Lesson
+        </a>
+      </div>
+
+      <div className="relative ml-auto">
+        <img
+          src="/assets/images/imgProfile.png"
+          alt="Profile"
+          className="rounded-full border-2 border-white w-[45px] h-[45px] cursor-pointer"
+          onClick={toggleDropdown}
+        />
+
+        {isDropdownOpen && (
+          <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-md py-2 w-40">
+            <a
+              href="/profile"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >
+              Settings
+            </a>
+            <button
+              onClick={handleLogout}
+              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >
+              Logout
+            </button>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+}
+
 
 export default function ProfilePage() {
   const [profilePic, setProfilePic] = useState("");
@@ -39,8 +110,8 @@ export default function ProfilePage() {
     password: "",
   });
 
-  const userId = 1;
-
+  // Retrieve userId from local storage or set a default value
+let userId = localStorage.getItem("userId");
   useEffect(() => {
     if (userId) {
       fetch(`http://localhost:8000/api/teman-tuli/${userId}`)
@@ -69,8 +140,7 @@ export default function ProfilePage() {
           setLoading(false);
         });
     } else {
-      setError("User ID not found.");
-      setLoading(false);
+      window.location.href = "/signin"; // Redirect to sign-in page
     }
   }, [userId]);
 
@@ -173,45 +243,11 @@ export default function ProfilePage() {
 
   if (error) {
     return <p className="text-red-500">{error}</p>;
-  }
+  } 
 
   return (
     <>
-      {/* NAVBAR */}
-      <nav className="bg-[#86c5d8] py-5 px-7 shadow-md flex items-center justify-between">
-        <a className="text-xl font-bold text-[#00354e] flex items-center" href="#">
-          <i className="fas fa-ear-listen mr-2"></i> IHear
-        </a>
-  
-        <div className="hidden md:flex space-x-8">
-          <a
-            href="../Kiki_HomePage_1302220020 (Terbaru)/homepage.html"
-            className="text-lg text-[#00354e] flex items-center"
-          >
-            <i className="fas fa-home mr-2"></i> Home
-          </a>
-          <a
-            href="../Relations/dashboardRelations.html"
-            className="text-lg text-[#00354e] flex items-center"
-          >
-            <i className="fas fa-globe mr-2"></i> Relations
-          </a>
-          <a
-            href="../rizkykusuma_page/lesson.html"
-            className="text-lg text-[#00354e] flex items-center"
-          >
-            <i className="fas fa-book mr-2"></i> Lesson
-          </a>
-        </div>
-  
-        <a href="../arga_page/profile.html" className="ml-auto">
-          <img
-            src="/assets/images/imgProfile.png"
-            alt="Profile"
-            className="rounded-full border-2 border-white w-[45px] h-[45px]"
-          />
-        </a>
-      </nav>
+      <Navbar />
   
       {/* Main Content */}
       <div className="flex justify-center mt-5">
