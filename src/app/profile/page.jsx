@@ -159,6 +159,11 @@ let userId = localStorage.getItem("userId");
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      const fileSizeInKB = file.size / 1024; // Convert size from bytes to KB
+      if (fileSizeInKB > 2048) {
+        setModalMessage("File size must be less than 2 MB.");
+        return;
+      }
       setProfilePic(URL.createObjectURL(file));
     }
   };
