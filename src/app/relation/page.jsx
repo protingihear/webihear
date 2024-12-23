@@ -1,6 +1,18 @@
-import React from 'react';
+"use client";
+
+import React, { useEffect, useState } from 'react';
 
 const RelationsPage = () => {
+  const [posts, setPosts] = useState([]);
+
+  // Fetch data from API
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/postingan')
+      .then((response) => response.json())
+      .then((data) => setPosts(data))
+      .catch((error) => console.error('Error fetching posts:', error));
+  }, []);
+
   return (
     <div>
       {/* NAVBAR */}
@@ -76,8 +88,8 @@ const RelationsPage = () => {
                 src="/assets/images/imgProfile.png"
                 alt="Profile"
                 className="rounded-full w-12 h-12 mr-4"
-                />
-                <textarea
+              />
+              <textarea
                 className="border-2 border-gray-300 rounded-lg w-full h-13 p-3 resize-none outline-none"
                 placeholder="Bagikan Kegiatan Anda!!"
               />
@@ -88,7 +100,7 @@ const RelationsPage = () => {
           </div>
 
           {/* Post Content */}
-          <div className="bg-white border-2 border-gray-300 rounded-xl w-full p-4">
+          <div className="bg-white border-2 border-gray-300 rounded-xl w-full p-4 mb-6">
             <p className="font-bold text-lg">Yazid Al Adnan</p>
             <p className="text-sm text-gray-500 mb-4">Be Kind 🌻</p>
             <p className="text-gray-800">
@@ -115,6 +127,28 @@ const RelationsPage = () => {
               </span>
             </div>
           </div>
+          {posts.map((post) => (
+            <div key={post.id} className="bg-white border-2 border-gray-300 rounded-xl w-full p-4 mb-6">
+              <p className="font-bold text-lg">{post.username}</p>
+              <p className="text-sm text-gray-500 mb-4">
+                {new Date(post.created_at).toLocaleString()}
+              </p>
+              <p className="text-gray-800">{post.kontenPostingan}</p>
+              {post.image && <img src={post.image} alt="Post" className="w-full mt-4 rounded-lg" />}
+              <div className="mt-4 flex items-center">
+                <span className="flex items-center space-x-2 text-gray-500">
+                  <i className="fas fa-heart"></i>
+                  <img src="/assets/images/icon/Love.png" className="w-6 h-6" />
+                  <span className="pr-2">{post.likes}</span>
+                </span>
+                <span className="flex items-center space-x-2 text-gray-500">
+                  <i className="fas fa-comment"></i>
+                  <img src="/assets/images/icon/icon.png" className="w-6 h-6" />
+                  <span className="pr-2">{post.comments}</span>
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* RIGHT COLUMN */}
