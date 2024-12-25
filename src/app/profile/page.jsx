@@ -46,7 +46,7 @@ export function Navbar({ profilePic }) {
       <div className="hidden md:flex space-x-8">
         {/* Home Link */}
         <a
-          href="../Kiki_HomePage_1302220020 (Terbaru)/homepage.html"
+          href="/home"
           className="text-lg text-white flex items-center"
         >
           <HomeIcon className="h-6 w-6 text-[#00354e] mr-2" />
@@ -55,7 +55,7 @@ export function Navbar({ profilePic }) {
 
         {/* Relations Link */}
         <a
-          href="../Relations/dashboardRelations.html"
+          href="/relation"
           className="text-lg text-white flex items-center"
         >
           <GlobeAltIcon className="h-6 w-6 text-[#00354e] mr-2" />
@@ -64,7 +64,7 @@ export function Navbar({ profilePic }) {
 
         {/* Lesson Link */}
         <a
-          href="../rizkykusuma_page/lesson.html"
+          href="/lessson"
           className="text-lg text-white flex items-center"
         >
           <BriefcaseIcon className="h-6 w-6 text-[#00354e] mr-2" />
