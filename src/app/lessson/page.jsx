@@ -102,6 +102,30 @@ export default function LessonPage() {
     fetchCategories();
   }, []);
   
+  const [userData, setUserData] = useState(null);
+
+  // Fetch data user berdasarkan userId dari localStorage
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userId = localStorage.getItem("userId");
+      if (!userId) {
+        console.error("User ID not found in localStorage");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `http://localhost:8000/api/teman-tuli/${userId}`
+        );
+        const data = await response.json();
+        setUserData(data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   return (
     <>
@@ -157,31 +181,46 @@ export default function LessonPage() {
 
           {/* Progress Section */}
           <div className="w-1/4">
-            <div className="flex items-center gap-4 mb-6">
-              <img
-                src="/profile-picture.png"
-                alt="Profile Picture"
-                className="w-12 h-12 rounded-full object-cover"
-              />
-              <div>
-                <p className="font-bold">Puri Lalita Anagata</p>
-              </div>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg mb-4">Progres</h3>
-              <div className="bg-gray-200 p-4 rounded-lg">
-                <div className="flex gap-2 items-end">
-                  {[60, 80, 40, 90, 70, 50, 60].map((height, index) => (
-                    <div
-                      key={index}
-                      className="w-6 bg-blue-500 rounded-t-md"
-                      style={{ height: `${height}px` }}
-                    ></div>
-                  ))}
+            {userData ? (
+              <>
+                <div className="flex items-center gap-4 mb-6">
+                  <img
+                    src={userData.picture || "/profile-picture.png"}
+                    alt="Profile Picture"
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <p className="font-bold">
+                      {userData.firstName} {userData.lastName}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </div>
+                <div>
+                  <h3 className="font-bold text-lg mb-4">Bio</h3>
+                  <p className="text-gray-600 mb-4">{userData.bio || "-"}</p>
+                </div>
+              </>
+            ) : (
+              <p className="text-center text-gray-500">Loading profile...</p>
+            )}
+            {/* Progress Bar */}
+            <div>
+                  <h3 className="font-bold text-lg mb-4">Progres</h3>
+                  <div className="bg-gray-200 p-4 rounded-lg">
+                    <div className="flex gap-2 items-end">
+                      {[60, 80, 40, 90, 70, 50, 60].map((height, index) => (
+                        <div
+                          key={index}
+                          className="w-6 bg-blue-500 rounded-t-md"
+                          style={{ height: `${height}px` }}
+                        ></div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
           </div>
+
+          
         </div>
       </div>
     </>
