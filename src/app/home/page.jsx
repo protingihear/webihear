@@ -1,5 +1,87 @@
 "use client";
 import { useState } from "react";
+import { HomeIcon, GlobeAltIcon, BriefcaseIcon, PencilIcon } from "@heroicons/react/solid";
+
+{/* NAVBAR */}
+export function Navbar({ profilePic }) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userId");
+    window.location.href = "/signin"; // Redirect to sign-in page
+  };
+
+  return (
+    <nav className="bg-[#86c5d8] py-5 px-7 shadow-md flex items-center justify-between">
+      {/* Logo Section */}
+      <a className="text-xl font-bold text-[#00354e] flex items-center mr-10" href="#">
+        IHear
+      </a>
+
+      {/* Navigation Links */}
+      <div className="hidden md:flex space-x-8">
+        {/* Home Link */}
+        <a
+          href="/home"
+          className="text-lg text-white flex items-center"
+        >
+          <HomeIcon className="h-6 w-6 text-[#00354e] mr-2" />
+          Home
+        </a>
+
+        {/* Relations Link */}
+        <a
+          href="/relation"
+          className="text-lg text-white flex items-center"
+        >
+          <GlobeAltIcon className="h-6 w-6 text-[#00354e] mr-2" />
+          Relations
+        </a>
+
+        {/* Lesson Link */}
+        <a
+          href="/lessson"
+          className="text-lg text-white flex items-center"
+        >
+          <BriefcaseIcon className="h-6 w-6 text-[#00354e] mr-2" />
+          Lesson
+        </a>
+      </div>
+
+      {/* Profile Section */}
+      <div className="relative ml-auto">
+        <img
+          id="profile-pic"
+          src={profilePic || "/assets/images/imgProfile.png"} // Fallback to default if profilePic is not available
+          alt="Profile"
+          className="rounded-full border-2 border-white w-[45px] h-[45px] cursor-pointer"
+          onClick={toggleDropdown}
+        />
+
+        {isDropdownOpen && (
+          <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-md py-2 w-40">
+            <a
+              href="/profile"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >
+              Settings
+            </a>
+            <button
+              onClick={handleLogout}
+              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >
+              Logout
+            </button>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+}
 
 export default function HomePage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,35 +116,12 @@ export default function HomePage() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentNewsItems = newsItems.slice(indexOfFirstItem, indexOfLastItem);
+  const [profilePic, setProfilePic] = useState("");
 
   return (
     <div className="bg-[#F5F5FA] min-h-screen font-sans">
       {/* Navbar */}
-      <div className="bg-[#9FD8E5] sticky top-0 z-10 py-4">
-        <nav className="flex items-center justify-between px-8 max-w-7xl mx-auto">
-          <div className="flex items-center text-white font-bold text-lg">
-            <span className="mr-2">IHear</span>
-          </div>
-          <ul className="flex gap-8">
-            <li>
-              <a href="#home" className="text-white hover:underline">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#relations" className="text-white hover:underline">
-                Relations
-              </a>
-            </li>
-            <li>
-              <a href="#lesson" className="text-white hover:underline">
-                Lesson
-              </a>
-            </li>
-          </ul>
-          <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
-        </nav>
-      </div>
+      <Navbar profilePic={profilePic} />
 
       {/* Hero Section */}
       <div className="mt-8 px-8 max-w-7xl mx-auto">
