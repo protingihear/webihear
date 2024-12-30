@@ -91,8 +91,15 @@ const RelationsPage = () => {
     name: "",
   });
 
+  const [likedPosts, setLikedPosts] = useState(new Set()); // Menggunakan Set untuk menyimpan ID postingan yang di-like
   const [image, setImage] = useState(null); // State untuk menyimpan file gambar
   const [kontenPostingan, setKontenPostingan] = useState(""); // State untuk konten postingan
+  const [likesCount, setLikesCount] = useState(
+    posts.reduce((acc, post) => {
+      acc[post.id] = post.likes;
+      return acc;
+    }, {})
+  );
 
   let userId = localStorage.getItem("userId");
 
@@ -124,8 +131,9 @@ const RelationsPage = () => {
     }
   }, [userId]);
 
+  // digunakan untuk get, manampilkan postingan yg ada pd table
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/postingan")
+    fetch("http://localhost:8000/api/postingan")
       .then((response) => response.json())
       .then((data) => setPosts(data))
       .catch((error) => console.error("Error fetching posts:", error));
@@ -144,7 +152,8 @@ const RelationsPage = () => {
       formData.append("image", image); // Hanya tambahkan gambar jika ada
     }
 
-    fetch("http://127.0.0.1:8000/api/postingan", {
+    // digunakan untuk post, utk mmbuat postingan baru
+    fetch("http://localhost:8000/api/postingan", {
       method: "POST",
       body: formData, // Gunakan FormData sebagai body
     })
@@ -163,6 +172,38 @@ const RelationsPage = () => {
       .catch((error) => console.error("Error posting data:", error));
   };
 
+  const handleLike = async (postId) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/postingan/toggle-like/${postId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
+      });
+
+      const data = await response.json();
+
+      if (data.status === "liked") {
+        setLikedPosts((prev) => new Set(prev).add(postId));
+      } else if (data.status === "unliked") {
+        setLikedPosts((prev) => {
+          const newSet = new Set(prev);
+          newSet.delete(postId);
+          return newSet;
+        });
+      }
+
+      // Perbarui jumlah likes untuk postingan terkait
+      setLikesCount((prev) => ({
+        ...prev,
+        [postId]: data.likes,
+      }));
+    } catch (error) {
+      console.error("Error while toggling like:", error);
+    }
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -174,6 +215,7 @@ const RelationsPage = () => {
   return (
     <div>
       <Navbar profilePic={profilePic} />
+
       {/* MAIN CONTAINER */}
       <div className="bg-[#F5F5FA] py-10 px-8 flex gap-8">
 
@@ -253,19 +295,21 @@ const RelationsPage = () => {
               <p className="text-gray-800">{post.kontenPostingan}</p>
               {post.image && (
                 <img
-                  src={`http://127.0.0.1:8000/storage/${post.image}`} // Path gambar dari server
+                  src={`http://127.0.0.1:8000/storage/${post.image}`}
                   alt="Post"
                   className="w-full mt-4 rounded-lg"
                 />
               )}
               <div className="mt-4 flex items-center">
-                <span className="flex items-center space-x-2 text-gray-500">
-                  <img src="/assets/images/icon/Love.png" className="w-6 h-6" />
-                  <span className="pr-2">{post.likes}</span>
-                </span>
-                <span className="flex items-center space-x-2 text-gray-500">
-                  <img src="/assets/images/icon/icon.png" className="w-6 h-6" />
-                  <span className="pr-2">{post.comments}</span>
+                <button
+                  onClick={() => handleLike(post.id)}
+                  className={`px-4 py-2 rounded-lg text-white font-semibold ${likedPosts.has(post.id) ? "bg-red-500" : "bg-blue-500"
+                    }`}
+                >
+                  {likedPosts.has(post.id) ? "Unlike" : "Like"}
+                </button>
+                <span className="ml-4 text-gray-500">
+                  {likesCount[post.id]} likes
                 </span>
               </div>
             </div>
