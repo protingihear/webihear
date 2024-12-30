@@ -28,12 +28,36 @@ export default function SignUpPage() {
     });
   };
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
+
+    // Validate email and password
+    if (!validateEmail(formData.email)) {
+      setErrorMessage("Email tidak valid. Mohon masukkan email yang benar.");
+      return;
+    }
+
+    if (!validatePassword(formData.password)) {
+      setErrorMessage(
+        "Password harus minimal 8 karakter, mengandung huruf kapital, angka, dan simbol."
+      );
+      return;
+    }
+
     setLoading(true);
-  
+
     try {
       const response = await fetch("http://localhost:8000/api/teman-tuli", {
         method: "POST",
@@ -43,7 +67,7 @@ export default function SignUpPage() {
         },
         body: JSON.stringify(formData),
       });
-  
+
       if (response.ok) {
         setSuccessMessage("Sign up berhasil! Selamat datang di IHear.");
         setFormData({
@@ -70,8 +94,6 @@ export default function SignUpPage() {
       setLoading(false);
     }
   };
-  
-  
 
   return (
     <>
