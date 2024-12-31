@@ -1,8 +1,15 @@
 "use client";
 import { useState } from "react";
-import { HomeIcon, GlobeAltIcon, BriefcaseIcon, PencilIcon } from "@heroicons/react/solid";
+import {
+  HomeIcon,
+  GlobeAltIcon,
+  BriefcaseIcon,
+  PencilIcon,
+} from "@heroicons/react/solid";
 
-{/* NAVBAR */}
+{
+  /* NAVBAR */
+}
 export function Navbar({ profilePic }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -18,35 +25,29 @@ export function Navbar({ profilePic }) {
   return (
     <nav className="bg-[#86c5d8] py-5 px-7 shadow-md flex items-center justify-between">
       {/* Logo Section */}
-      <a className="text-xl font-bold text-[#00354e] flex items-center mr-10" href="#">
+      <a
+        className="text-xl font-bold text-[#00354e] flex items-center mr-10"
+        href="#"
+      >
         IHear
       </a>
 
       {/* Navigation Links */}
       <div className="hidden md:flex space-x-8">
         {/* Home Link */}
-        <a
-          href="/home"
-          className="text-lg text-white flex items-center"
-        >
+        <a href="/home" className="text-lg text-white flex items-center">
           <HomeIcon className="h-6 w-6 text-[#00354e] mr-2" />
           Home
         </a>
 
         {/* Relations Link */}
-        <a
-          href="/relation"
-          className="text-lg text-white flex items-center"
-        >
+        <a href="/relation" className="text-lg text-white flex items-center">
           <GlobeAltIcon className="h-6 w-6 text-[#00354e] mr-2" />
           Relations
         </a>
 
         {/* Lesson Link */}
-        <a
-          href="/lessson"
-          className="text-lg text-white flex items-center"
-        >
+        <a href="/lessson" className="text-lg text-white flex items-center">
           <BriefcaseIcon className="h-6 w-6 text-[#00354e] mr-2" />
           Lesson
         </a>
@@ -93,23 +94,15 @@ export default function HomePage() {
   const newsItems = [
     {
       id: 1,
-      image: "assets/hp1.png",
-      title: "Cerita Inspiratif Nadya, Wisudawan Teman Tuli yang Lulus Cepat & Cum Laude dari ITS",
+      image: "/assets/images/hp1.png",
+      title:
+        "Cerita Inspiratif Nadya, Wisudawan Teman Tuli yang Lulus Cepat & Cum Laude dari ITS",
     },
     {
       id: 2,
-      image: "assets/hp2.png",
-      title: "Menginspirasi Dalam Sunyi, Nuraga Gelar Talk Show bersama Teman Tuli",
-    },
-    {
-      id: 3,
-      image: "assets/hp3.png",
-      title: "Inovasi Teknologi Tuli: Membuka Peluang Baru untuk Komunikasi Inklusif",
-    },
-    {
-      id: 4,
-      image: "assets/hp4.png",
-      title: "Transformasi Kehidupan Teman Tuli: Cerita dari Sudut Pandang Mereka",
+      image: "/assets/images/hp2.png",
+      title:
+        "Menginspirasi Dalam Sunyi, Nuraga Gelar Talk Show bersama Teman Tuli",
     },
   ];
 
@@ -124,14 +117,20 @@ export default function HomePage() {
       <Navbar profilePic={profilePic} />
 
       {/* Hero Section */}
-      <div className="mt-8 px-8 max-w-7xl mx-auto">
-        <div className="bg-[#B5E6F3] p-6 rounded-lg shadow-md text-center">
+      <div className="mt-8 px-8 max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
+        {/* Hero Content */}
+        <div className="flex-1 bg-[#B5E6F3] p-6 rounded-lg shadow-md text-left">
           <h2 className="text-[#3B8C98] text-sm font-medium">
             IHear Membantumu
           </h2>
           <h1 className="text-[#3B8C98] text-2xl font-bold">
             Yuk Jelajahi Dunia Tuli Bersama!
           </h1>
+        </div>
+
+        {/* Empty Right Section */}
+        <div className="w-full lg:w-[35%] bg- white p-6 ">
+          {/* Kosong untuk saat ini */}
         </div>
       </div>
 
@@ -142,23 +141,27 @@ export default function HomePage() {
           <h3 className="text-lg font-semibold mb-6">Your Communication</h3>
           <div className="grid grid-cols-2 gap-8">
             <div className="text-center">
-              <div className="bg-[#3B8C98] p-6 rounded-lg shadow-lg">
-                <img
-                  src="assets/mic.png"
-                  alt="Voice to Text"
-                  className="mx-auto w-16 h-16"
-                />
-                <p className="mt-4 text-white font-semibold">Voice to Text</p>
+              <div className="bg-[#3B8C98] p-8 rounded-[50px] shadow-lg h-[280px] w-[265px] flex flex-col justify-center items-center">
+                <a href="../voicetotext">
+                  <img
+                    src="/assets/images/VoiceToText.png"
+                    alt="Voice to Text"
+                    className="mx-auto w-100 h-28"
+                  />
+                </a>
+                <p className="mt-6 text-white font-bold">Voice to Text</p>
               </div>
             </div>
             <div className="text-center">
-              <div className="bg-[#3B8C98] p-6 rounded-lg shadow-lg">
-                <img
-                  src="assets/scan.png"
-                  alt="Scan to Text"
-                  className="mx-auto w-16 h-16"
-                />
-                <p className="mt-4 text-white font-semibold">Scan to Text</p>
+              <div className="bg-[#3B8C98] p-8 rounded-[50px] shadow-lg h-[280px] w-[265px] flex flex-col justify-center items-center">
+                <a href="../imagestotext">
+                  <img
+                    src="/assets/images/ImageScan.png"
+                    alt="Scan to Text"
+                    className="mx-auto w-26 h-26"
+                  />
+                </a>
+                <p className="mt-6 text-white font-bold">Scan to Text</p>
               </div>
             </div>
           </div>
@@ -171,11 +174,13 @@ export default function HomePage() {
               key={item.id}
               className="bg-white rounded-lg shadow-md mb-6 overflow-hidden"
             >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-40 object-cover"
-              />
+              <a href="../information">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-40 object-cover"
+                />
+              </a>
               <div className="p-4">
                 <h3 className="text-sm font-medium">{item.title}</h3>
               </div>
