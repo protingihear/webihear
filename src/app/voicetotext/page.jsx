@@ -19,21 +19,18 @@ export default function Home() {
       setTranscript(savedTranscript);
     }
 
-    // Fetch history of transcripts from API
     fetchHistory();
-  }, []); // Runs once when the component mounts
+  }, []); 
 
-  // Function to fetch history of transcripts from the API
   const fetchHistory = async () => {
     try {
       const response = await fetch(`http://localhost:8000/api/transkrip/nomer/${nomer}`);
       if (response.ok) {
         const data = await response.json();
-        console.log("Fetched Data:", data); // Log all response data for debugging
+        console.log("Fetched Data:", data); 
 
-        // Check if there is a valid transcript and set it to state
         if (data && Array.isArray(data)) {
-          setHistory(data); // Update history state with the fetched data
+          setHistory(data);
         } else {
           console.error("No valid transcript data found");
         }
@@ -45,12 +42,11 @@ export default function Home() {
     }
   };
 
-  // Function to start Voice Recognition
   const startRecognition = () => {
     if ("webkitSpeechRecognition" in window) {
       const recognition = new webkitSpeechRecognition();
       recognition.continuous = true;
-      recognition.lang = "id-ID"; // Set to Indonesian
+      recognition.lang = "id-ID"; 
 
       recognition.onresult = (event) => {
         let interimTranscript = "";
@@ -59,10 +55,10 @@ export default function Home() {
             const newTranscript = transcript + event.results[i][0].transcript + " ";
             setTranscript(newTranscript);
 
-            // Save the new transcript to localStorage
+            
             localStorage.setItem("transcript", newTranscript);
 
-            // Send transcript to server
+            
             sendTranscriptToServer(nomer, newTranscript);
           } else {
             interimTranscript += event.results[i][0].transcript;
@@ -78,26 +74,25 @@ export default function Home() {
         setIsMicActive(false);
       };
 
-      // Store the recognition instance in the ref
       recognitionRef.current = recognition;
 
       recognition.start();
-      setIsMicActive(true); // Update the mic status
+      setIsMicActive(true); 
     } else {
       alert("Speech Recognition not supported in this browser.");
     }
   };
 
-  // Function to stop Voice Recognition
+
   const stopRecognition = () => {
     if (recognitionRef.current) {
-      recognitionRef.current.abort(); // Use abort() to stop the recognition
-      setIsMicActive(false); // Update the mic status
+      recognitionRef.current.abort();
+      setIsMicActive(false); 
     }
-    setTranscript(""); // Clear the transcript when stop is pressed
+    setTranscript("");
   };
 
-  // Function to send transcript data to the server
+
   const sendTranscriptToServer = async (nomer, newTranscript) => {
     try {
       const response = await fetch("http://localhost:8000/api/transkrip", {
@@ -113,7 +108,6 @@ export default function Home() {
 
       if (response.ok) {
         console.log("Transcript successfully sent!");
-        // Update history after successfully sending the new transcript
         fetchHistory();
       } else {
         console.error("Failed to send transcript:", response.statusText);
@@ -174,17 +168,17 @@ export default function Home() {
               fontSize: "1.2rem",
               color: "black",
               textAlign: "center",
-              width: "80%",
+              width: "100%",
               padding: "1rem",
               border: "1px solid #ccc",
               borderRadius: "10px",
               backgroundColor: "#f9f9f9",
               boxShadow: "0 0 15px rgba(0, 0, 0, 0.1)",
-              minHeight: "150px",
+              minHeight: "200px",
               overflowY: "auto",
             }}
           >
-            {transcript || "Kata-kata Anda akan muncul di sini..."} {/* Initial text is empty */}
+            {"Kata-kata Anda akan muncul di sini..."} {/* Initial text is empty */}
           </div>
         </div>
 
@@ -194,6 +188,7 @@ export default function Home() {
             backgroundColor: "#D2EDF4",
             borderTopLeftRadius: "200px",
             borderTopRightRadius: "200px",
+            marginTop: "300px",
             width: "100%",
             maxWidth: "600px",
             margin: "0 auto",
