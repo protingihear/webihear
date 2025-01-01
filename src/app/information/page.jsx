@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 export default function Home() {
     const [newsData, setNewsData] = useState([]);
+    const [menuVisible, setMenuVisible] = useState({});
 
     useEffect(() => {
         const fetchNewsData = async () => {
@@ -22,6 +23,36 @@ export default function Home() {
 
         fetchNewsData();
     }, []);
+
+
+    const toggleMenu = (index) => {
+        setMenuVisible((prev) => ({
+            ...prev,
+            [index]: !prev[index],
+        }));
+    };
+
+    const handleEdit = (id) => {
+        console.log(`Edit item with ID: ${id}`);
+        // Tambahkan logika untuk navigasi atau fungsi edit
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/information/${id}`, {
+                method: "DELETE",
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to delete news");
+            }
+
+            setNewsData((prev) => prev.filter((news) => news.id !== id));
+            console.log(`Deleted item with ID: ${id}`);
+        } catch (error) {
+            console.error("Error deleting news:", error);
+        }
+    };
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -57,7 +88,7 @@ export default function Home() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                     {newsData.length > 0 ? (
                         newsData.map((news, index) => (
-                            <div key={index} className="bg-white rounded shadow p-4">
+                            <div key={index} className="relative bg-white rounded shadow p-4">
                                 <img
                                     src={news.image ? `http://localhost:8000/storage/${news.image}` : "https://via.placeholder.com/300x150"}
                                     // alt="News"
@@ -69,6 +100,32 @@ export default function Home() {
                                 </p>
                                 <h4 className="font-bold mt-2">{news.title}</h4>
                                 <p className="text-gray-600 mt-2">{news.content}</p>
+
+                                {/* Button titik */}
+                                <button
+                                    className="absolute top-2 right-2 text-gray-400 text-xl"
+                                    onClick={() => toggleMenu(index)}
+                                >
+                                    &bull;&bull;&bull;
+                                </button>
+
+                                {/* Dropdown menu */}
+                                {menuVisible[index] && (
+                                    <div className="absolute top-8 right-2 bg-white border rounded shadow-md z-10">
+                                        <button
+                                            className="block w-full text-left px-4 py-2 text-sm text-blue-600 hover:bg-gray-100"
+                                            onClick={() => handleEdit(news.id)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                                            onClick={() => handleDelete(news.id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         ))
                     ) : (
