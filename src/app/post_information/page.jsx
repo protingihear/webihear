@@ -10,20 +10,39 @@ export default function InputInformation() {
         title: "",
         content: "",
     });
+    const [image, setImage] = useState(null); // State untuk menyimpan file gambar
+    const [preview, setPreview] = useState(""); // State untuk preview gambar
     const router = useRouter();
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            setPreview(URL.createObjectURL(file)); // Membuat URL preview
+        }
+    };
+
     const handleSubmit = async () => {
         try {
+            const formData = new FormData();
+
+            // Tambahkan data form
+            for (const key in form) {
+                formData.append(key, form[key]);
+            }
+
+            // Tambahkan file gambar jika ada
+            if (image) {
+                formData.append("image", image);
+            }
+
             const response = await fetch("http://localhost:8000/api/information", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(form),
+                body: formData, // Tidak perlu header Content-Type, FormData akan menanganinya
             });
 
             if (!response.ok) {
@@ -33,7 +52,7 @@ export default function InputInformation() {
             const result = await response.json();
             console.log("Data submitted successfully:", result);
 
-            router.push("/");
+            router.push("/information");
         } catch (error) {
             console.error("Error submitting data:", error);
         }
@@ -108,11 +127,36 @@ export default function InputInformation() {
                                 onChange={handleChange}
                             ></textarea>
                         </div>
+
+                        <div className="mb-4">
+                            <label htmlFor="image" className="block font-medium mb-2">
+                                Gambar
+                            </label>
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                accept="image/*"
+                                className="border rounded w-full p-2"
+                                onChange={handleImageChange}
+                            />
+                            {preview && (
+                                <div className="mt-4">
+                                    <p className="text-sm text-gray-500 mb-2">Preview:</p>
+                                    <img
+                                        src={preview}
+                                        alt="Preview"
+                                        className="w-64 h-64 object-cover border border-gray-300"
+                                    />
+                                </div>
+                            )}
+                        </div>
+
                         <div className="flex justify-end">
                             <button
                                 type="button"
                                 className="bg-gray-300 text-gray-700 py-2 px-4 rounded mr-2"
-                                onClick={() => router.push("/")}
+                                onClick={() => router.push("/information")}
                             >
                                 Cancel
                             </button>
