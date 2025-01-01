@@ -51,7 +51,7 @@ export default function Home() {
 
             <main className="container mx-auto py-8">
                 <div className="flex justify-end">
-                    <Link href="/input-information" className="text-gray-500 text-xl">&bull;&bull;&bull;</Link>
+                    <Link href="/post_information" className="text-gray-500 text-xl">&bull;&bull;&bull;</Link>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
@@ -59,8 +59,8 @@ export default function Home() {
                         newsData.map((news, index) => (
                             <div key={index} className="bg-white rounded shadow p-4">
                                 <img
-                                    src="https://via.placeholder.com/300x150"
-                                    alt="News"
+                                    src={news.image ? `http://localhost:8000/storage/${news.image}` : "https://via.placeholder.com/300x150"}
+                                    // alt="News"
                                     className="rounded w-full h-40 object-cover"
                                 />
                                 <p className="text-green-600 mt-2 text-sm">{news.source}</p>
