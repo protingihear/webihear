@@ -167,27 +167,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Right Section: News */}
-        {/* <div className="w-full lg:w-[35%]">
-          {currentNewsItems.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white rounded-lg shadow-md mb-6 overflow-hidden"
-            >
-              <a href="/information">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-40 object-cover"
-                />
-              </a>
-              <div className="p-4">
-                <h3 className="text-sm font-medium">{item.title}</h3>
-              </div>
-            </div>
-          ))}
-        </div> */}
-
         <div className="w-full lg:w-[35%]">
           {currentNewsItems.map((item) => (
             <div
@@ -207,19 +186,12 @@ export default function HomePage() {
             </div>
           ))}
 
-          {/* Textfield "See more >>" */}
           <div className="text-center mt-4">
-            <a
-              href="/information"
-              className="text-blue-500 hover:underline text-sm font-semibold"
-            >
+            <a href="/information" className="text-blue-500 hover:underline text-sm font-semibold">
               See more &gt;&gt;
             </a>
           </div>
         </div>
-
-
-
 
       </div>
     </div>
