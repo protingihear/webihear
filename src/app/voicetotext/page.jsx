@@ -3,17 +3,15 @@ import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
   const [isMicActive, setIsMicActive] = useState(false);
-  const [transcript, setTranscript] = useState(""); // Set initial transcript to an empty string
-  const [nomer, setNomer] = useState("001"); // Set default nomer as "001"
-  const [history, setHistory] = useState([]); // State for storing transcript history
-  const recognitionRef = useRef(null); // Reference to store the recognition instance
+  const [transcript, setTranscript] = useState(""); 
+  const [nomer, setNomer] = useState("001"); 
+  const [history, setHistory] = useState([]); 
+  const recognitionRef = useRef(null); 
 
   useEffect(() => {
-    // Retrieve userId from localStorage and log it
     const userId = localStorage.getItem("userId");
     console.log("User ID:", userId);
 
-    // Retrieve transcript from localStorage if it exists
     const savedTranscript = localStorage.getItem("transcript");
     if (savedTranscript) {
       setTranscript(savedTranscript);
@@ -121,16 +119,16 @@ export default function Home() {
     <div
       style={{
         display: "flex",
-        flexDirection: "row", // Change to row layout for left-right structure
+        flexDirection: "row", 
         justifyContent: "space-between",
         height: "100vh",
         padding: "2rem",
       }}
     >
-      {/* Left Section (Current Transcript) */}
+      {/* Left Section  */}
       <div
         style={{
-          width: "60%", // Width for the main transcript area
+          width: "60%", 
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -155,7 +153,7 @@ export default function Home() {
           </h1>
         </div>
 
-        {/* Middle Section */}
+        {/* tengah */}
         <div
           style={{
             display: "flex",
@@ -178,11 +176,11 @@ export default function Home() {
               overflowY: "auto",
             }}
           >
-            {"Kata-kata Anda akan muncul di sini..."} {/* Initial text is empty */}
+            {"Kata-kata Anda akan muncul di sini..."} 
           </div>
         </div>
 
-        {/* Bottom Section */}
+        {/*bawah*/}
         <div
           style={{
             backgroundColor: "#D2EDF4",
@@ -259,10 +257,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Right Section (History of Transcripts) */}
+      {/* kanan*/}
       <div
         style={{
-          width: "35%", // Width for the history section
+          width: "35%", 
           padding: "1rem",
           backgroundColor: "#f0f0f0",
           borderRadius: "10px",
